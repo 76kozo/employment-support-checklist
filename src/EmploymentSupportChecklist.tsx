@@ -901,8 +901,8 @@ class DataService {
     ];
 
     // 各項目の詳細スコアをヘッダーに追加
-    categories.forEach((category, catIndex) => {
-      category.items.forEach((item, itemIndex) => {
+    categories.forEach((category) => {
+      category.items.forEach((item) => {
         headers.push(`${category.name}_${item}`);
       });
     });
@@ -932,7 +932,7 @@ class DataService {
 
       // 各項目のスコアを追加
       categories.forEach((category, catIndex) => {
-        category.items.forEach((item, itemIndex) => {
+        category.items.forEach((_item, itemIndex) => {
           const key = `${record.evaluator}-${catIndex}-${itemIndex}`;
           const score = record.evaluations[key] || 0;
           row.push(score);
@@ -1089,7 +1089,7 @@ const EmploymentSupportChecklist = () => {
   const [selectedTargetId, setSelectedTargetId] = useState('');
   const [showTargetSelector, setShowTargetSelector] = useState(false);
   const [targetSearchQuery, setTargetSearchQuery] = useState('');
-  const [currentDraft, setCurrentDraft] = useState<EvaluationDraft | null>(null);
+  const [, setCurrentDraft] = useState<EvaluationDraft | null>(null);
   const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [saveMessage, setSaveMessage] = useState<string>('');
   
@@ -1108,7 +1108,7 @@ const EmploymentSupportChecklist = () => {
   });
   
   // 既存の状態
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUser] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
   const [evaluations, setEvaluations] = useState<Record<string, number>>({});
   const [detailChecks, setDetailChecks] = useState<Record<string, boolean>>({});
@@ -1332,7 +1332,6 @@ const EmploymentSupportChecklist = () => {
   
   // スクロール位置管理の強化
   const scrollPositionRef = useRef<number>(0);
-  const containerRef = useRef<HTMLDivElement>(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
   // 強力なスクロール位置復元
@@ -1579,7 +1578,7 @@ const EmploymentSupportChecklist = () => {
 
     // 現在の評価データを計算
     const totalScore = categories.reduce((total, category, catIndex) => {
-      return total + category.items.reduce((catTotal, item, itemIndex) => {
+      return total + category.items.reduce((catTotal, _item, itemIndex) => {
         const score = getEvaluationScore(evaluatorType, catIndex, itemIndex);
         return catTotal + score;
       }, 0);
@@ -1672,7 +1671,8 @@ const EmploymentSupportChecklist = () => {
       evaluations: {...evaluations},
       subChecks: {...detailChecks},
       comments: {...comments},
-      completionRate
+      completionRate,
+      lastSaved: new Date().toISOString()
     };
 
     const saved = DataService.saveEvaluationDraft(draftData);
