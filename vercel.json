@@ -2,13 +2,5 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "devCommand": "npm run dev",
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "app/**": {
-      "memory": 1024
-    }
-  }
+  "devCommand": "npm run dev"
 }
