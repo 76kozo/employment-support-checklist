@@ -3020,10 +3020,15 @@ const EmploymentSupportChecklist = () => {
                   e.preventDefault();
                   e.stopPropagation();
                   const key = `${activeEvaluator}-${categoryIndex}-${itemIndex}`;
-                  setExpandedComments(prev => ({
-                    ...prev,
-                    [key]: !prev[key]
-                  }));
+                  console.log('Comment button clicked:', key);
+                  setExpandedComments(prev => {
+                    const newState = {
+                      ...prev,
+                      [key]: !prev[key]
+                    };
+                    console.log('ExpandedComments updated:', newState);
+                    return newState;
+                  });
                 }}
                 className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors ml-4"
                 title="コメントを追加"
@@ -3066,17 +3071,25 @@ const EmploymentSupportChecklist = () => {
         </div>
 
         {/* コメント入力エリア */}
-        {expandedComments[`${activeEvaluator}-${categoryIndex}-${itemIndex}`] && (
-          <div className="px-4 pb-4 border-t bg-white">
-            <textarea
-              placeholder="コメントを入力してください..."
-              className="w-full p-3 border rounded-md resize-none"
-              rows={3}
-              value={getComment(activeEvaluator, categoryIndex, itemIndex)}
-              onChange={(e) => handleComment(categoryIndex, itemIndex, e.target.value)}
-            />
-          </div>
-        )}
+        {(() => {
+          const key = `${activeEvaluator}-${categoryIndex}-${itemIndex}`;
+          const isExpanded = expandedComments[key];
+          console.log('Comment area render check:', key, isExpanded);
+          return isExpanded && (
+            <div className="px-4 pb-4 border-t bg-white">
+              <textarea
+                placeholder="コメントを入力してください..."
+                className="w-full p-3 border rounded-md resize-none"
+                rows={3}
+                value={getComment(activeEvaluator, categoryIndex, itemIndex)}
+                onChange={(e) => {
+                  console.log('Comment input change:', e.target.value);
+                  handleComment(categoryIndex, itemIndex, e.target.value);
+                }}
+              />
+            </div>
+          );
+        })()}
 
         {/* サブチェック項目 */}
         {showSubCheck && item.subCheckItems && item.subCheckItems.length > 0 && (
