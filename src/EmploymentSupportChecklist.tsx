@@ -3016,12 +3016,18 @@ const EmploymentSupportChecklist = () => {
               
               {/* コメントボタン */}
               <button
-                onClick={() => setExpandedComments(prev => ({
-                  ...prev,
-                  [`${activeEvaluator}-${categoryIndex}-${itemIndex}`]: !prev[`${activeEvaluator}-${categoryIndex}-${itemIndex}`]
-                }))}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const key = `${activeEvaluator}-${categoryIndex}-${itemIndex}`;
+                  setExpandedComments(prev => ({
+                    ...prev,
+                    [key]: !prev[key]
+                  }));
+                }}
                 className="p-2 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors ml-4"
                 title="コメントを追加"
+                type="button"
               >
                 <MessageSquare size={18} />
               </button>
