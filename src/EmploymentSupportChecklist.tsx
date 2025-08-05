@@ -1268,7 +1268,7 @@ const EmploymentSupportChecklist = () => {
       
       // ガイドを表示する位置（ボタンの右横）
       let x = absoluteX + rect.width + 10;
-      let y = absoluteY;
+      const y = absoluteY;
       
       // 画面右端からはみ出る場合は左側に表示
       if (x + 320 > window.innerWidth + scrollLeft) {
@@ -1474,7 +1474,7 @@ const EmploymentSupportChecklist = () => {
       }
       setShowAddEditForm(false);
       resetForm();
-    } catch (error) {
+    } catch {
       alert('保存に失敗しました。');
     }
   };
